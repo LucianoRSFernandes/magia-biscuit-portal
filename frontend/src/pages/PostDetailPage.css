@@ -1,0 +1,95 @@
+.post-detail-container {
+  max-width: 800px; /* Largura similar à pág. de produto */
+  margin: 2rem auto;
+  padding: 2.5rem; /* Um pouco mais de padding */
+  background-color: rgba(0, 0, 0, 0.1); /* Fundo sutil escuro */
+  border-radius: 8px;
+  border: 1px solid var(--cor-verde-salvia);
+  color: var(--cor-texto-claro); /* Texto claro padrão */
+}
+
+.post-detail-container h1 { /* Título do Post */
+  color: var(--cor-amarelo-principal);
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 2.2em;
+  line-height: 1.3; /* Melhora espaçamento do título */
+}
+
+.post-detail-meta { /* Data de publicação */
+  font-size: 0.9em;
+  color: var(--cor-destaque);
+  margin-bottom: 2rem;
+  display: block;
+}
+
+/* Estilo para a imagem do post */
+.post-detail-image {
+    max-width: 100%; /* Limita a largura ao container */
+    height: auto; /* Mantém a proporção */
+    margin: 2rem 0; /* Espaçamento vertical */
+    border-radius: 8px; /* Cantos arredondados */
+    display: block; /* Evita espaços extras abaixo da imagem */
+    border: 1px solid var(--cor-verde-salvia); /* Borda sutil */
+}
+
+.post-detail-content {
+  line-height: 1.8; /* Aumenta o espaçamento entre linhas */
+  font-size: 1.1em;
+}
+
+/* Espaçamento entre parágrafos */
+.post-detail-content p {
+  margin-bottom: 1.5rem;
+}
+.post-detail-content p:last-child {
+    margin-bottom: 0;
+}
+
+.back-link {
+  display: inline-block;
+  margin-top: 2.5rem; /* Aumenta espaço acima do link */
+  color: var(--cor-amarelo-principal);
+  font-weight: bold;
+  text-decoration: none;
+  border-bottom: 1px solid transparent; /* Para animação no hover */
+  transition: border-bottom-color 0.3s ease, color 0.3s ease;
+}
+
+.back-link:hover {
+  text-decoration: none; /* Remove sublinhado padrão */
+  border-bottom-color: var(--cor-destaque); /* Sublinhado sutil no hover */
+  color: var(--cor-destaque);
+}
+
+/* Mensagens de status (reutiliza classes de FormStyles/StatusPage se importados) */
+.status-message {
+    text-align: center;
+    padding: 2rem;
+    font-weight: bold;
+    min-height: 300px; /* Garante altura mínima */
+    display: flex; /* Para centralizar verticalmente */
+    flex-direction: column; /* Para empilhar texto e link */
+    justify-content: center;
+    align-items: center;
+}
+.error-message {
+    color: #ff6b6b; /* Vermelho para erro */
+}
+.loading-message {
+    color: var(--cor-texto-claro);
+}
+/* Link dentro de mensagens de status (reutiliza classe de StatusPage se importado) */
+.status-page-link {
+    color: var(--cor-amarelo-principal);
+    font-weight: bold;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 1rem;
+    border-bottom: 1px solid transparent;
+    transition: border-bottom-color 0.3s ease, color 0.3s ease;
+}
+.status-page-link:hover {
+    color: var(--cor-destaque);
+    border-bottom-color: var(--cor-destaque);
+}

@@ -1,0 +1,79 @@
+.produto-card {
+  border: 1px solid var(--cor-verde-salvia); /* Borda sutil verde */
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 10px;
+  width: 250px; /* Largura padrão */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  background-color: white; /* Fundo branco */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  color: var(--cor-texto-escuro); /* Usa variável de texto escuro */
+  display: flex;
+  flex-direction: column;
+}
+
+.produto-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.produto-card h3 { /* Título do Produto */
+    color: var(--cor-verde-principal);
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.2em;
+    /* Opcional: Limita o título a uma linha com reticências */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.produto-preco {
+  color: var(--cor-terrosa);
+  font-weight: bold;
+  font-size: 1.1em;
+  margin-bottom: 0.5rem;
+}
+
+.produto-descricao {
+  font-size: 0.9em;
+  color: #666; /* Mantém cinza para descrição */
+  flex-grow: 1; /* Ocupa espaço vertical */
+  text-align: left;
+  /* Opcional: Limita a descrição a N linhas */
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Mostra no máximo 3 linhas */
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  line-height: 1.4; /* Ajuste a altura da linha */
+  min-height: calc(1.4em * 3); /* Garante altura mínima para 3 linhas */
+  margin-bottom: 0; /* Remove margem inferior extra */
+}
+
+.produto-card-link {
+  text-decoration: none;
+  color: inherit; /* Remove sublinhado e cor padrão do link */
+}
+
+.produto-imagem {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px 8px 0 0; /* Apenas cantos superiores */
+}
+
+/* Estilo para quando a imagem não carregar ou não existir */
+.imagem-placeholder {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #eee; /* Fundo cinza claro */
+    color: #aaa; /* Texto cinza */
+    font-size: 0.9em;
+    font-weight: bold;
+    border-radius: 8px 8px 0 0;
+    text-align: center;
+}

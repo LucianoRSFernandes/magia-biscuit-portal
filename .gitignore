@@ -1,0 +1,23 @@
+# Arquivo de variáveis de ambiente - NUNCA REMOVA ISSO
+.env
+
+# Dependências do Backend
+/node_modules
+
+# Dependências do Frontend
+/frontend/node_modules
+
+# Arquivos de build (compilados) do Vite/React
+/frontend/dist
+
+# Pasta de uploads
+/uploads
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Arquivos de sistema operacional
+.DS_Store
+Thumbs.db

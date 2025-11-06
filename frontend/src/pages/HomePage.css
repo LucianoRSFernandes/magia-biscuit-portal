@@ -1,0 +1,121 @@
+/* Estilos para o Banner de Produto Único */
+.banner-carrossel {
+  padding: 2rem; /* Aumenta o padding interno */
+  background-color: rgba(0, 0, 0, 0.1); /* Fundo sutilmente mais escuro que o body */
+  border-radius: 10px;
+  max-width: 600px; /* Mais estreito para focar no card */
+  margin: 2rem auto;
+  text-align: center;
+  border: 1px solid var(--cor-verde-salvia);
+  min-height: auto; /* Remove altura mínima, deixa o conteúdo definir */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* Título Principal do Banner ("Últimas Criações") */
+.banner-titulo {
+  text-align: center;
+  color: var(--cor-amarelo-principal); /* Usa a cor amarela */
+  margin-top: 2rem;
+  margin-bottom: 0.5rem; /* Menos espaço abaixo */
+}
+
+/* Container do item dentro do banner */
+.banner-item-produto {
+  animation: fadeIn 0.8s ease-in-out;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Ajusta o card do produto DENTRO do banner */
+/* (Herda os estilos base do ProdutoCard.css, mas sobrescrevemos cores para contraste) */
+.banner-item-produto .produto-card {
+  margin: 1rem auto; /* Adiciona margem vertical */
+  width: 90%;
+  max-width: 350px; /* Mantém um tamanho razoável para o card */
+  /* Remove a cor de fundo branca padrão do card para melhor integração */
+  background-color: transparent;
+  box-shadow: none; /* Remove a sombra padrão */
+  border: none; /* Remove a borda padrão */
+  color: var(--cor-texto-claro); /* Garante texto claro dentro do card no banner */
+}
+
+/* Ajusta o preço dentro do card no banner */
+.banner-item-produto .produto-card .produto-preco {
+    color: var(--cor-amarelo-principal); /* Preço em amarelo */
+}
+/* Ajusta a descrição dentro do card no banner */
+.banner-item-produto .produto-card .produto-descricao {
+    color: #f0f0f0; /* Um cinza bem claro para a descrição */
+}
+/* Ajusta o título do produto dentro do card no banner */
+.banner-item-produto .produto-card h3 {
+    color: var(--cor-texto-claro); /* Título claro no banner */
+}
+
+
+/* --- Estilos Seção Blog Preview --- */
+.blog-preview-section {
+  max-width: 1100px;
+  margin: 3rem auto; /* Aumenta margem */
+}
+
+/* Título das Seções (Blog e Todos Produtos) */
+.section-title {
+  text-align: center;
+  margin-top: 3rem;
+  margin-bottom: 1.5rem;
+  color: var(--cor-amarelo-principal); /* Títulos em amarelo */
+}
+
+.blog-preview-container {
+  display: grid;
+  /* Cria 3 colunas em telas maiores, 2 em médias, 1 em pequenas */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem; /* Espaço entre os cards */
+}
+
+.post-preview-card {
+  background-color: rgba(255, 255, 255, 0.05); /* Fundo sutilmente mais claro */
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  border: 1px solid var(--cor-verde-salvia);
+  display: flex;
+  flex-direction: column;
+  color: var(--cor-texto-claro); /* Texto claro nos cards de post (fundo escuro sutil) */
+}
+
+.post-preview-card h3 {
+  margin-top: 0;
+  color: var(--cor-amarelo-principal); /* Título do post em amarelo */
+  font-size: 1.3em;
+}
+
+.post-preview-card p {
+  flex-grow: 1;
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.read-more-link {
+  color: var(--cor-destaque); /* Link "Leia mais" com cor de destaque */
+  font-weight: bold;
+  text-decoration: none;
+  align-self: flex-end;
+}
+
+.read-more-link:hover {
+  text-decoration: underline;
+}
+
+/* --- Animação --- */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

@@ -1,0 +1,71 @@
+/* Container geral para páginas de administração */
+.admin-page-container {
+  max-width: 1000px; /* Largura um pouco maior para tabelas */
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: rgba(0, 0, 0, 0.1); /* Fundo sutil sobre o body */
+  border-radius: 8px;
+  border: 1px solid var(--cor-verde-salvia);
+  color: var(--cor-texto-claro);
+}
+
+.admin-page-container h2 {
+  color: var(--cor-amarelo-principal);
+  text-align: center;
+  margin-top: 0; /* Remove margem do topo */
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--cor-verde-salvia); /* Linha sutil abaixo do título */
+  padding-bottom: 1rem; /* Espaçamento abaixo da linha */
+}
+
+/* Estilo para a tabela de administração */
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5rem;
+}
+
+.admin-table th,
+.admin-table td {
+  border: 1px solid var(--cor-verde-salvia);
+  padding: 0.8rem 1rem;
+  text-align: left;
+  vertical-align: middle; /* Alinha o conteúdo verticalmente */
+  /* Garante que o texto dentro da tabela seja legível */
+  color: var(--cor-texto-claro); 
+}
+
+.admin-table th {
+  background-color: rgba(0, 0, 0, 0.2); /* Cabeçalho da tabela um pouco mais escuro */
+  color: var(--cor-amarelo-principal);
+  font-weight: bold;
+}
+
+/* Fundo listrado para melhor legibilidade */
+.admin-table tbody tr:nth-of-type(even) {
+    background-color: rgba(255, 255, 255, 0.05); 
+}
+
+/* Container para os botões de ação na tabela */
+.action-buttons {
+  display: flex;
+  flex-wrap: wrap; /* Garante que os botões quebrem em telas pequenas */
+  gap: 0.5rem; /* Espaço entre os botões */
+}
+
+/* Estilo para links que parecem botões (como o "Adicionar Novo") */
+.admin-button-link {
+    display: inline-block; /* Permite aplicar padding e margin */
+    margin-bottom: 1.5rem;
+    padding: 10px 15px;
+    background-color: var(--cor-amarelo-principal);
+    color: var(--cor-texto-escuro); /* Texto escuro no botão amarelo */
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    font-family: 'Lora', serif;
+    transition: background-color 0.3s ease;
+}
+.admin-button-link:hover {
+    background-color: var(--cor-destaque);
+}

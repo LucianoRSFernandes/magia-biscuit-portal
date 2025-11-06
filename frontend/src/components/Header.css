@@ -1,0 +1,83 @@
+/* frontend/src/components/Header.css (Refatorado) */
+
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 2rem;
+  background-color: var(--cor-fundo-escuro);
+  border-bottom: 2px solid var(--cor-verde-principal);
+}
+
+/* Estilos para o container do logo (link) */
+.logo-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit; /* Herda a cor do texto padrão */
+}
+
+/* Estilo para a imagem do logo */
+.logo-image {
+    height: 70px; /* Altura definida aqui */
+    margin-right: 15px; /* Espaço entre logo e texto */
+}
+
+/* Estilo para o texto do nome da loja */
+.logo-text {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--cor-texto-claro); /* Garante cor clara sobre fundo escuro do header */
+}
+
+/* Estilos da Navegação */
+.main-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center; /* Alinha verticalmente os itens da lista */
+}
+
+.main-nav li {
+  margin-left: 20px;
+  display: flex; /* Adicionado para alinhar botão */
+  align-items: center; /* Adicionado para alinhar botão */
+}
+
+.main-nav a {
+  text-decoration: none;
+  color: var(--cor-terrosa);
+  font-weight: bold;
+  transition: color 0.3s ease, border-bottom-color 0.3s ease;
+  padding: 5px 0;
+  border-bottom: 2px solid transparent;
+  /* Garante alinhamento vertical consistente */
+  display: inline-block;
+  line-height: 1; /* Ajuste conforme necessário */
+}
+
+.main-nav a:hover {
+  color: var(--cor-verde-principal);
+  border-bottom-color: var(--cor-verde-principal);
+}
+
+/* Estilo para o botão Sair */
+.logout-button {
+  background: none;
+  border: none;
+  color: var(--cor-terrosa); /* Mesma cor dos links */
+  font-weight: bold;
+  cursor: pointer;
+  font-family: inherit; /* Mesma fonte do site */
+  font-size: inherit; /* Mesmo tamanho dos links */
+  padding: 5px 0; /* Mesmo padding vertical */
+  margin: 0; /* Remove margens padrão */
+  line-height: 1; /* Tenta alinhar com os links */
+  transition: color 0.3s ease;
+}
+
+.logout-button:hover {
+  color: var(--cor-verde-principal); /* Mesmo hover dos links */
+  cursor: url('/assets/mushroom.cur'), pointer; /* Cursor cogumelo */
+}

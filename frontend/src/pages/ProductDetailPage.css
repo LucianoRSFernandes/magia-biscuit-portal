@@ -1,0 +1,147 @@
+.product-detail-container {
+  max-width: 800px; /* Largura máxima para o conteúdo */
+  margin: 2rem auto; /* Centraliza */
+  padding: 2rem;
+  background-color: rgba(0, 0, 0, 0.1); /* Fundo sutil */
+  border-radius: 8px;
+  border: 1px solid var(--cor-verde-salvia);
+  color: var(--cor-texto-claro);
+  display: flex; /* Para layout imagem/texto lado a lado */
+  gap: 2rem; /* Espaço entre imagem e texto */
+}
+
+/* Container para a imagem do produto */
+.product-image-container {
+  flex: 1; /* Ocupa metade do espaço */
+  text-align: center;
+}
+
+.product-image {
+  width: 100%; /* Imagem fluida */
+  max-width: 100%; /* Garante que não estoure */
+  height: auto; /* Mantém a proporção */
+  border-radius: 8px;
+  border: 1px solid var(--cor-verde-salvia);
+}
+
+/* Placeholder para imagem indisponível */
+.image-placeholder-detail {
+    height: 300px;
+    width: 100%;
+    min-width: 250px; /* Garante largura mínima */
+    box-sizing: border-box; /* Evita que padding/borda estoure */
+    background: #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    color: #666; /* Texto escuro no placeholder claro */
+    font-weight: bold;
+    font-family: Arial, sans-serif; /* Fonte padrão para UI */
+}
+
+
+/* Container para as informações do produto */
+.product-info-container {
+  flex: 1; /* Ocupa a outra metade */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Removemos o h2 "Detalhes do Produto" */
+/*
+.product-detail-container h2 {
+  color: var(--cor-amarelo-principal);
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+*/
+
+.product-detail-container h3 { /* Nome do Produto */
+    color: var(--cor-texto-claro);
+    margin-top: 0; /* Remove margem do topo se h2 sumiu */
+    margin-bottom: 1rem;
+    font-size: 1.8em;
+    line-height: 1.3;
+}
+
+.product-detail-price {
+  color: var(--cor-amarelo-principal);
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.product-detail-category {
+  font-style: italic;
+  color: var(--cor-destaque);
+  margin-bottom: 1.5rem;
+}
+
+.product-detail-description {
+  line-height: 1.7; /* Melhora a legibilidade */
+  flex-grow: 1; /* Empurra o botão para baixo */
+  margin-bottom: 1.5rem;
+}
+
+/* Estilo para o botão "Adicionar ao Carrinho" */
+.add-to-cart-button {
+  padding: 12px 20px;
+  font-size: 1.1em;
+  align-self: flex-start; /* Alinha o botão à esquerda */
+  /* Estilos de botão padrão (do index.css) serão aplicados */
+}
+.add-to-cart-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* Mensagens de status (Carregando/Erro) */
+/* Essas classes são reutilizadas de outros arquivos (StatusPage.css / FormStyles.css) */
+.status-message {
+    text-align: center;
+    padding: 2rem;
+    font-weight: bold;
+    min-height: 300px; /* Garante altura mínima */
+    justify-content: center;
+    align-items: center;
+    width: 100%; /* Garante que o container ocupe a largura */
+    box-sizing: border-box; /* Garante que o padding não estoure */
+}
+.error-message {
+    color: #ff6b6b; /* Vermelho para erro */
+}
+.loading-message {
+    color: var(--cor-texto-claro);
+}
+.status-page-link {
+    color: var(--cor-amarelo-principal);
+    font-weight: bold;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 1rem;
+    border-bottom: 1px solid transparent;
+    transition: border-bottom-color 0.3s ease, color 0.3s ease;
+}
+.status-page-link:hover {
+    color: var(--cor-destaque);
+    border-bottom-color: var(--cor-destaque);
+}
+
+
+/* Responsividade básica para empilhar em telas menores */
+@media (max-width: 768px) {
+  .product-detail-container {
+    flex-direction: column; /* Empilha imagem e texto */
+  }
+  .product-image-container,
+  .product-info-container {
+    flex: none; /* Remove a divisão de espaço */
+    width: 100%; /* Ocupa a largura toda */
+    box-sizing: border-box; /* Garante que padding não estoure */
+  }
+  .add-to-cart-button {
+      align-self: center; /* Centraliza o botão */
+      width: 80%; /* Botão maior */
+  }
+}

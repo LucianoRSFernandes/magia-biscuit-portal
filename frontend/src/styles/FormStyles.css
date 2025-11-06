@@ -1,0 +1,104 @@
+.form-container {
+  max-width: 450px; /* Largura do formulário */
+  margin: 3rem auto; /* Centraliza vertical e horizontalmente */
+  padding: 2.5rem;
+  background-color: rgba(0, 0, 0, 0.15); /* Fundo sutilmente escuro */
+  border-radius: 8px;
+  border: 1px solid var(--cor-verde-salvia);
+  color: var(--cor-texto-claro);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.form-container h2 {
+  color: var(--cor-amarelo-principal);
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 2rem;
+}
+
+/* Fieldset usado para desabilitar o form */
+.form-container fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+.form-container fieldset:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.form-group {
+  margin-bottom: 1.5rem; /* Aumenta o espaçamento */
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid var(--cor-verde-salvia);
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--cor-texto-claro);
+  box-sizing: border-box;
+  font-family: 'Lora', serif;
+}
+
+.form-group input::placeholder {
+  color: rgba(245, 245, 245, 0.7); 
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--cor-amarelo-principal);
+    box-shadow: 0 0 5px var(--cor-amarelo-principal);
+}
+
+/* Estilo para mensagens de erro/sucesso */
+.form-message {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-weight: bold;
+    padding: 0.5rem;
+    border-radius: 4px;
+}
+.form-message.error {
+    color: #fff;
+    background-color: rgba(255, 107, 107, 0.7); /* Vermelho para erros */
+}
+.form-message.success {
+    color: var(--cor-texto-escuro);
+    background-color: rgba(143, 188, 143, 0.8); /* Verde claro para sucesso */
+}
+
+/* Estilo específico para o botão dentro do formulário */
+.form-container button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.1em;
+    margin-top: 1rem; /* Espaço acima do botão */
+}
+.form-container button[type="submit"]:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* Estilo para o link "Já tem conta?" */
+.form-sub-link {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.9em;
+}
+.form-sub-link a {
+    color: var(--cor-amarelo-principal);
+    font-weight: bold;
+    text-decoration: none;
+}
+.form-sub-link a:hover {
+    text-decoration: underline;
+}

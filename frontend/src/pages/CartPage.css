@@ -1,0 +1,113 @@
+.cart-container {
+  max-width: 900px; /* Limita a largura para melhor leitura */
+  margin: 2rem auto; /* Centraliza na página */
+  padding: 2rem;
+  background-color: rgba(0, 0, 0, 0.1); /* Fundo sutilmente escuro */
+  border-radius: 8px;
+  border: 1px solid var(--cor-verde-salvia);
+  color: var(--cor-texto-claro); /* Garante texto claro */
+}
+
+.cart-container h2 {
+  color: var(--cor-amarelo-principal); /* Título em amarelo */
+  text-align: center;
+  margin-top: 0; /* Remove margem do topo */
+  margin-bottom: 2rem;
+}
+
+.cart-table {
+  width: 100%;
+  border-collapse: collapse; /* Remove espaços entre bordas */
+  margin-bottom: 2rem;
+}
+
+.cart-table th,
+.cart-table td {
+  border: 1px solid var(--cor-verde-salvia); /* Bordas na cor do tema */
+  padding: 0.8rem 1rem;
+  text-align: left;
+  vertical-align: middle; /* Alinha conteúdo verticalmente */
+}
+
+.cart-table th {
+  background-color: rgba(0, 0, 0, 0.2); /* Cabeçalho da tabela um pouco mais escuro */
+  color: var(--cor-amarelo-principal);
+  font-weight: bold;
+}
+
+/* Opcional: Estilo para coluna de quantidade */
+.cart-table td:nth-child(3) { /* Terceira coluna (Quantidade) */
+  text-align: center;
+}
+/* Opcional: Estilo para botões +/- quantidade */
+.cart-table td button {
+  padding: 2px 6px;
+  margin: 0 5px;
+  font-size: 0.8em;
+}
+
+
+/* Container para a área de resumo (total e limpar carrinho) */
+.cart-summary {
+    display: flex;
+    justify-content: flex-end; /* Alinha o total à direita */
+    align-items: center;
+    margin-bottom: 1.5rem;
+    gap: 1rem; /* Espaço entre limpar e total */
+}
+
+/* Opcional: Estilo para botão Limpar Carrinho */
+.clear-cart-button {
+    background-color: var(--cor-terrosa); /* Cor diferente */
+    font-size: 0.9em;
+    padding: 8px 12px;
+}
+.clear-cart-button:hover {
+    background-color: #8B4513; /* Marrom mais escuro no hover */
+}
+
+
+.cart-total {
+  text-align: right;
+  /* margin-bottom: 1.5rem; */ /* Removido, controlado pelo cart-summary */
+}
+
+.cart-total h3 {
+  color: var(--cor-amarelo-principal);
+  margin: 0;
+  font-size: 1.3em;
+}
+
+/* Container para os botões inferiores */
+.cart-actions {
+  display: flex;
+  justify-content: space-between; /* Coloca os links/botões nas extremidades */
+  align-items: center;
+  border-top: 1px solid var(--cor-verde-salvia); /* Linha divisória */
+  padding-top: 1.5rem; /* Espaço acima dos botões */
+}
+
+.cart-actions a { /* Estilo para o link "Continuar Comprando" */
+    color: var(--cor-destaque);
+    text-decoration: none;
+    font-weight: bold;
+}
+.cart-actions a:hover {
+    text-decoration: underline;
+}
+
+/* Estilo específico para o botão Checkout */
+.checkout-button {
+  padding: 12px 20px; /* Botão ligeiramente maior */
+  font-size: 1.1em;
+}
+
+.empty-cart-message {
+    text-align: center;
+    padding: 3rem 1rem; /* Mais espaçamento */
+    font-size: 1.1em;
+}
+.empty-cart-message a {
+    color: var(--cor-amarelo-principal);
+    font-weight: bold;
+}

@@ -1,0 +1,53 @@
+/* Estilo para containers de página de status (Sucesso, Falha) */
+.status-page-container {
+  max-width: 600px; /* Largura do container */
+  margin: 4rem auto; /* Centraliza vertical e horizontalmente */
+  padding: 2.5rem;
+  background-color: rgba(0, 0, 0, 0.1); /* Fundo sutil */
+  border-radius: 8px;
+  border: 1px solid var(--cor-verde-salvia);
+  color: var(--cor-texto-claro); /* Texto claro */
+  text-align: center; /* Centraliza todo o conteúdo */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Título de Sucesso */
+.success-title {
+  color: #90ee90; /* Verde claro para sucesso */
+  font-size: 2em;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+/* Título de Falha */
+.failure-title {
+  color: #ff6b6b; /* Um vermelho claro para falha */
+  font-size: 2em;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+/* Parágrafo de texto */
+.status-page-container p {
+  font-size: 1.1em;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+/* Link para voltar (estilizado como botão) */
+.status-page-link {
+  display: inline-block;
+  padding: 12px 20px;
+  background-color: var(--cor-amarelo-principal);
+  color: var(--cor-texto-escuro); /* Texto escuro no botão amarelo */
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  font-family: 'Lora', serif;
+  transition: background-color 0.3s ease;
+  font-size: 1.1em;
+}
+
+.status-page-link:hover {
+  background-color: var(--cor-destaque);
+}
