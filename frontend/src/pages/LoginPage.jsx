@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/FormStyles.css'; // Importa os estilos de formulário
+import { Link } from 'react-router-dom';
 
 function LoginPage() {
   const [email, setEmail] = useState('');
