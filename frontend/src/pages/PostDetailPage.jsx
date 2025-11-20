@@ -5,6 +5,7 @@ import './PostDetailPage.css'; // Importa os estilos específicos da página
 import '../styles/FormStyles.css';
 // Reutiliza estilos de página de status (se criado)
 // import '../styles/StatusPage.css';
+import API_URL from '../config';
 
 function PostDetailPage() {
   const [post, setPost] = useState(null); // null: carregando, false: erro, objeto: sucesso
@@ -14,7 +15,7 @@ function PostDetailPage() {
   useEffect(() => {
     setPost(null); // Define como carregando ao iniciar ou mudar ID
     setErro('');   // Limpa erro anterior
-    fetch(`http://localhost:3000/posts/${id}`) // Endpoint público
+    fetch(`${API_URL}/posts/${id}`) // Endpoint público
       .then(response => {
         if (!response.ok) {
            // Tenta ler o erro, senão usa mensagem padrão

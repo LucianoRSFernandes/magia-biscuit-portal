@@ -5,7 +5,8 @@ import './ProductDetailPage.css'; // Importa os estilos da página
 // Importa estilos de formulário para as classes de mensagem
 import '../styles/FormStyles.css'; 
 // Importa estilos de página de status (opcional, se usarmos .status-message)
-import '../styles/StatusPage.css'; 
+import API_URL from '../config'; // (Ajuste o caminho ../ se necessário dependendo da pasta)
+import '../styles/StatusPage.css';
 
 function ProductDetailPage() {
   const [produto, setProduto] = useState(null); // null: carregando, false: erro, objeto: sucesso
@@ -19,7 +20,7 @@ function ProductDetailPage() {
       setProduto(null); // Define como carregando
       setErro('');   // Limpa erros anteriores
       try {
-        const response = await fetch(`http://localhost:3000/produtos/${id}`);
+        const response = await fetch(`${API_URL}/produtos/${id}`);
         if (!response.ok) {
           let errorData;
           try { errorData = await response.json(); }

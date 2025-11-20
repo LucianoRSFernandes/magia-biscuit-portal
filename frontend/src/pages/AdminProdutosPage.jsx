@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/AdminStyles.css'; // Importa os estilos de admin
+import API_URL from '../config';
 
 function AdminProdutosPage() {
   const [produtos, setProdutos] = useState([]);
@@ -13,7 +14,7 @@ function AdminProdutosPage() {
     setErro(''); // Limpa erros antigos
     try {
       // A listagem de produtos é pública
-      const response = await fetch('http://localhost:3000/produtos');
+      const response = await fetch(`${API_URL}/produtos`);
       if (!response.ok) {
         throw new Error('Falha ao buscar produtos.');
       }
@@ -46,7 +47,7 @@ function AdminProdutosPage() {
     }
 
     try {
-      const response = await fetch(`http://localhost:3000/produtos/${produtoId}`, {
+      const response = await fetch(`${API_URL}/produtos/${produtoId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`

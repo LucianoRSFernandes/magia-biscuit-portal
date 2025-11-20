@@ -9,22 +9,37 @@ const postRoutes = require('./routes/postRoutes');
 const clienteRoutes = require('./routes/clienteRoutes');
 const checkoutRoutes = require('./routes/checkoutRoutes');
 const freteRoutes = require('./routes/freteRoutes');
+
 const app = express();
+
+// Configuração do CORS para aceitar requisições do Front-end
 app.use(cors());
 app.use(express.json());
-const port = 3000;
 
-// Configura o uso das rotas
-app.use('/produtos', produtoRoutes);
-app.use('/', authRoutes);
-app.use('/posts', postRoutes);
-app.use('/clientes', clienteRoutes);
-app.use('/checkout', checkoutRoutes);
-app.use('/frete', freteRoutes);
+const port = process.env.PORT || 3000; // Previne erro no Render se a porta mudar
 
-// Rota de teste para a página inicial
+// --- DEFINIÇÃO DAS ROTAS (Padronizado com /api) ---
+
+// Rotas de Produtos (ex: /api/produtos)
+app.use('/api/produtos', produtoRoutes);
+
+// Rotas de Autenticação Admin (ex: /api/auth/login) -> AQUI ESTAVA O ERRO
+app.use('/api/auth', authRoutes);
+
+// Rotas do Blog (ex: /api/posts)
+app.use('/api/posts', postRoutes);
+
+// Rotas de Clientes (ex: /api/clientes/login)
+app.use('/api/clientes', clienteRoutes);
+
+// Rotas de Checkout e Frete
+app.use('/api/checkout', checkoutRoutes);
+app.use('/api/frete', freteRoutes);
+
+
+// Rota de teste na raiz (para sabermos se o servidor está vivo)
 app.get('/', (req, res) => {
-  res.send('Servidor do site Magia Biscuit está funcionando!');
+  res.send('API do Magia Biscuit está funcionando! Acesse /api/produtos para ver dados.');
 });
 
 app.listen(port, () => {

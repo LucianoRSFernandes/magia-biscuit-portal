@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import ProdutoCard from '../components/ProdutoCard';
 import { Link } from 'react-router-dom';
 import '../App.css'; 
-import './HomePage.css'; 
+import './HomePage.css';
+import API_URL from '../config';
 
 function HomePage() {
   const [todosOsProdutos, setTodosOsProdutos] = useState([]);
@@ -13,8 +14,8 @@ function HomePage() {
   useEffect(() => {
     // Busca todos os produtos e posts
     Promise.all([
-      fetch('http://localhost:3000/produtos'),
-      fetch('http://localhost:3000/posts')
+      fetch(`${API_URL}/produtos`),
+      fetch(`${API_URL}/posts`)
     ])
     .then(async([resProdutos, resPosts]) => {
       const produtos = await resProdutos.json();

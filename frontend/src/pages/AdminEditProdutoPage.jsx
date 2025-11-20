@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../styles/FormStyles.css'; // Importa os estilos de formulário
+import API_URL from '../config';
 
 function AdminEditProdutoPage() {
   // Estados para os campos
@@ -23,7 +24,7 @@ function AdminEditProdutoPage() {
     setIsLoadingData(true);
     setMensagem(''); // Limpa mensagens anteriores
     setIsError(false);
-    fetch(`http://localhost:3000/produtos/${id}`)
+    fetch(`${API_URL}/produtos/${id}`)
       .then(res => {
           if (!res.ok) {
               // Tenta ler o erro, senão usa mensagem padrão
@@ -94,7 +95,7 @@ function AdminEditProdutoPage() {
 
 
     try {
-      const response = await fetch(`http://localhost:3000/produtos/${id}`, {
+      const response = await fetch(`${API_URL}/produtos/${id}`, {
         method: 'PUT',
         headers: {
             'Authorization': `Bearer ${token}`

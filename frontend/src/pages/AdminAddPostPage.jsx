@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/FormStyles.css'; // Importa os estilos de formulário
+import API_URL from '../config';
 
 function AdminAddPostPage() {
   const [titulo, setTitulo] = useState('');
@@ -50,7 +51,7 @@ function AdminAddPostPage() {
     }
 
     try {
-      const response = await fetch('http://localhost:3000/posts', {
+      const response = await fetch(`${API_URL}/posts`, {
         method: 'POST',
         headers: {
           // Não definir 'Content-Type' ao enviar FormData
