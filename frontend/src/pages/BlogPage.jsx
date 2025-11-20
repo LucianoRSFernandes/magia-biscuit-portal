@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import '../styles/AdminStyles.css';
 // Reutiliza estilos de HomePage para os cards de post e grid
 import './HomePage.css';
+import API_URL from '../config';
 
 function BlogPage() {
   const [posts, setPosts] = useState([]);
@@ -13,7 +14,7 @@ function BlogPage() {
   useEffect(() => {
     setIsLoading(true); // Inicia carregamento
     setErro(''); // Limpa erros antigos
-    fetch('http://localhost:3000/posts') // Endpoint público para buscar todos os posts
+    fetch(`${API_URL}/posts`) // Endpoint público para buscar todos os posts
       .then(response => {
         if (!response.ok) {
           // Tenta ler o erro, senão usa mensagem padrão

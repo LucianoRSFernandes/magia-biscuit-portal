@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/FormStyles.css'; // Importa os estilos de formulário
-
-// Define a URL base da API (facilita o deploy)
-//const API_URL_BASE = process.env.VITE_API_URL || 'http://localhost:3000';
+import API_URL from '../config';
 
 function RegisterPage() {
   const [nome, setNome] = useState('');
@@ -35,7 +33,7 @@ function RegisterPage() {
     setIsLoading(true); // Desabilita o formulário
 
     try {
-      const response = await fetch(`${API_URL_BASE}/clientes/register`, { // Sempre registra como cliente
+      const response = await fetch(`${API_URL}/api/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ nome, email, senha }),

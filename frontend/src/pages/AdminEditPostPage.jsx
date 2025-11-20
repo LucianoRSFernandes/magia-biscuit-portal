@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../styles/FormStyles.css'; // Reuses form styles
+import API_URL from '../config';
 
 function AdminEditPostPage() {
   const [titulo, setTitulo] = useState('');
@@ -18,7 +19,7 @@ function AdminEditPostPage() {
   useEffect(() => {
     setIsLoadingData(true);
     setErro(''); // Clear previous errors
-    fetch(`http://localhost:3000/posts/${id}`) // Fetch specific post (public route)
+    fetch(`${API_URL}/posts/${id}`) // Fetch specific post (public route)
       .then(res => {
           if (!res.ok) {
               // Try to parse error message, otherwise throw generic one
@@ -83,7 +84,7 @@ function AdminEditPostPage() {
 
 
     try {
-      const response = await fetch(`http://localhost:3000/posts/${id}`, {
+      const response = await fetch(`${API_URL}/posts/${id}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`

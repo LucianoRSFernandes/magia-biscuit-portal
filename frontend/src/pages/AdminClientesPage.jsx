@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/AdminStyles.css'; // Importa os estilos de admin
+import API_URL from '../config';
 
 function AdminClientesPage() {
   const [clientes, setClientes] = useState([]);
@@ -19,7 +20,7 @@ function AdminClientesPage() {
       }
 
       try {
-        const response = await fetch('http://localhost:3000/clientes', {
+        const response = await fetch(`${API_URL}/clientes`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }

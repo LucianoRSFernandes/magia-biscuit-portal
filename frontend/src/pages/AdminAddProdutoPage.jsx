@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/FormStyles.css'; // Importa os estilos de formulário
+import API_URL from '../config';
 
 function AdminAddProdutoPage() {
   const [nome, setNome] = useState('');
@@ -60,7 +61,7 @@ function AdminAddProdutoPage() {
 
 
     try {
-      const response = await fetch('http://localhost:3000/produtos', {
+      const response = await fetch(`${API_URL}/produtos`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`

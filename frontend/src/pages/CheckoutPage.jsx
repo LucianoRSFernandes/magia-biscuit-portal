@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import './CheckoutPage.css'; // Importa o arquivo de estilo
 // Importa estilos de formulário para mensagens
 import '../styles/FormStyles.css';
+import API_URL from '../config';
 
 function CheckoutPage() {
   const { cartItems } = useCart();
@@ -47,7 +48,7 @@ function CheckoutPage() {
     setFreteOpcoes([]);
     setFreteSelecionado(null);
     try {
-      const response = await fetch('http://localhost:3000/frete/calcular', {
+      const response = await fetch(`${API_URL}/frete/calcular`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ cepDestino: cepLimpo }),
@@ -108,7 +109,7 @@ function CheckoutPage() {
     };
 
     try {
-      const response = await fetch('http://localhost:3000/checkout', {
+      const response = await fetch(`${API_URL}/checkout`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

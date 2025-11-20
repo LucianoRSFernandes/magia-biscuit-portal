@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/AdminStyles.css'; // Reutiliza estilos de admin
+import API_URL from '../config';
 
 function AdminPostsPage() {
   const [posts, setPosts] = useState([]);
@@ -13,7 +14,7 @@ function AdminPostsPage() {
     setErro(''); // Limpa erros antigos
     try {
       // A listagem de posts é pública, não precisa de token aqui
-      const response = await fetch('http://localhost:3000/posts');
+      const response = await fetch(`${API_URL}/posts`);
       if (!response.ok) throw new Error('Falha ao buscar posts.');
       const data = await response.json();
       setPosts(data);
@@ -42,7 +43,7 @@ function AdminPostsPage() {
     }
 
     try {
-      const response = await fetch(`http://localhost:3000/posts/${postId}`, {
+      const response = await fetch(`${API_URL}/posts/${postId}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });
