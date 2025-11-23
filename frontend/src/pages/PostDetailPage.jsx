@@ -15,7 +15,7 @@ function PostDetailPage() {
   useEffect(() => {
     setPost(null); // Define como carregando ao iniciar ou mudar ID
     setErro('');   // Limpa erro anterior
-    fetch(`${API_URL}/posts/${id}`) // Endpoint público
+    fetch(`${API_URL}/api/posts/${id}`) // Endpoint público
       .then(response => {
         if (!response.ok) {
            // Tenta ler o erro, senão usa mensagem padrão

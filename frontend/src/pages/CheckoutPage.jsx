@@ -48,7 +48,7 @@ function CheckoutPage() {
     setFreteOpcoes([]);
     setFreteSelecionado(null);
     try {
-      const response = await fetch(`${API_URL}/frete/calcular`, {
+      const response = await fetch(`${API_URL}/api/frete/calcular`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ cepDestino: cepLimpo }),
@@ -109,7 +109,7 @@ function CheckoutPage() {
     };
 
     try {
-      const response = await fetch(`${API_URL}/checkout`, {
+      const response = await fetch(`${API_URL}/api/checkout`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

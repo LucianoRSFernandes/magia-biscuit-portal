@@ -19,7 +19,7 @@ function AdminEditPostPage() {
   useEffect(() => {
     setIsLoadingData(true);
     setErro(''); // Clear previous errors
-    fetch(`${API_URL}/posts/${id}`) // Fetch specific post (public route)
+    fetch(`${API_URL}/api/posts/${id}`) // Fetch specific post (public route)
       .then(res => {
           if (!res.ok) {
               // Try to parse error message, otherwise throw generic one
@@ -84,7 +84,7 @@ function AdminEditPostPage() {
 
 
     try {
-      const response = await fetch(`${API_URL}/posts/${id}`, {
+      const response = await fetch(`${API_URL}/api/posts/${id}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`

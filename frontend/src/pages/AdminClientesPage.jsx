@@ -20,7 +20,7 @@ function AdminClientesPage() {
       }
 
       try {
-        const response = await fetch(`${API_URL}/clientes`, {
+        const response = await fetch(`${API_URL}/api/clientes`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }

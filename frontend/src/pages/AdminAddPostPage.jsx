@@ -51,7 +51,7 @@ function AdminAddPostPage() {
     }
 
     try {
-      const response = await fetch(`${API_URL}/posts`, {
+      const response = await fetch(`${API_URL}/api/posts`, {
         method: 'POST',
         headers: {
           // Não definir 'Content-Type' ao enviar FormData

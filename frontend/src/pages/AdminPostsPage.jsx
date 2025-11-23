@@ -14,7 +14,7 @@ function AdminPostsPage() {
     setErro(''); // Limpa erros antigos
     try {
       // A listagem de posts é pública, não precisa de token aqui
-      const response = await fetch(`${API_URL}/posts`);
+      const response = await fetch(`${API_URL}/api/posts`);
       if (!response.ok) throw new Error('Falha ao buscar posts.');
       const data = await response.json();
       setPosts(data);
@@ -43,7 +43,7 @@ function AdminPostsPage() {
     }
 
     try {
-      const response = await fetch(`${API_URL}/posts/${postId}`, {
+      const response = await fetch(`${API_URL}/api/posts/${postId}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });

@@ -61,7 +61,7 @@ function AdminAddProdutoPage() {
 
 
     try {
-      const response = await fetch(`${API_URL}/produtos`, {
+      const response = await fetch(`${API_URL}/api/produtos`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`

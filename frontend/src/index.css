@@ -24,7 +24,7 @@ html, body {
 
   /* Cursor de cogumelo (usando a URL local) */
   /* Certifique-se que 'mushroom.cur' está em 'frontend/public/assets/' */
-  cursor: url('/assets/mushroom.cur'), auto;
+  cursor: url('/cursor.png'), auto;
 }
 
 /* Garante que o container root ocupe toda a altura */
@@ -50,7 +50,7 @@ button {
 /* Define cursor pointer no hover do botão */
 button:hover {
   background-color: var(--cor-destaque);
-  cursor: pointer; 
+  cursor: url('/cursor.png'), pointer; 
 }
 
 /* Estilo global de links */
@@ -63,7 +63,7 @@ a {
 a:hover {
   color: var(--cor-destaque);
   /* Cursor cogumelo no hover do link */
-  cursor: url('/assets/mushroom.cur'), pointer; 
+  cursor: url('/cursor.png'), pointer; 
 }
 
 /* Títulos globais */
