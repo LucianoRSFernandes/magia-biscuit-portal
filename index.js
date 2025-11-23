@@ -14,7 +14,9 @@ const app = express();
 
 // Configuração do CORS para aceitar requisições do Front-end
 app.use(cors());
-app.use(express.json());
+// Aumentando o limite para aceitar fotos de alta resolução
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 const port = process.env.PORT || 3000; // Previne erro no Render se a porta mudar
 
