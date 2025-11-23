@@ -4,7 +4,7 @@ const fs = require('fs').promises;
 
 // --- LISTAR POSTS ---
 exports.listarPosts = async (req, res) => {
-  const sql = 'SELECT * FROM posts_blog ORDER BY data_criacao DESC'; // Ajustado nome da coluna data
+  const sql = 'SELECT * FROM posts ORDER BY data_criacao DESC'; // Ajustado nome da coluna data
   try {
     const [results] = await db.query(sql);
     res.json(results);
@@ -20,7 +20,7 @@ exports.obterPostPorId = async (req, res) => {
   if (isNaN(parseInt(id, 10))) {
       return res.status(400).json({ message: 'ID do post inválido.'});
   }
-  const sql = 'SELECT * FROM posts_blog WHERE id = ?';
+  const sql = 'SELECT * FROM posts WHERE id = ?';
   try {
     const [results] = await db.query(sql, [id]);
     if (results.length === 0) {
@@ -53,7 +53,7 @@ exports.criarPost = async (req, res) => {
       await fs.unlink(filePath).catch(console.error);
     }
 
-    const sql = 'INSERT INTO posts_blog (titulo, conteudo, imagem_url) VALUES (?, ?, ?)';
+    const sql = 'INSERT INTO posts (titulo, conteudo, imagem_url) VALUES (?, ?, ?)';
     // CORREÇÃO: Removido .promise()
     const [results] = await db.query(sql, [titulo, conteudo, imagem_url]);
     
@@ -91,7 +91,7 @@ exports.atualizarPost = async (req, res) => {
       // Opcional: Deletar imagem antiga do Cloudinary aqui se desejar
     }
 
-    const sql = 'UPDATE posts_blog SET titulo = ?, conteudo = ?, imagem_url = ? WHERE id = ?';
+    const sql = 'UPDATE posts SET titulo = ?, conteudo = ?, imagem_url = ? WHERE id = ?';
     // CORREÇÃO: Removido .promise()
     const [results] = await db.query(sql, [titulo, conteudo, imagem_url, id]);
 
@@ -115,8 +115,8 @@ exports.deletarPost = async (req, res) => {
       return res.status(400).json({ message: 'ID do post inválido.'});
   }
 
-  const findSql = 'SELECT imagem_url FROM posts_blog WHERE id = ?';
-  const deleteSql = 'DELETE FROM posts_blog WHERE id = ?';
+  const findSql = 'SELECT imagem_url FROM posts WHERE id = ?';
+  const deleteSql = 'DELETE FROM posts WHERE id = ?';
 
   try {
     // 1. Buscar URL da imagem
