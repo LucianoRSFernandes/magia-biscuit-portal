@@ -79,5 +79,5 @@
 
 .logout-button:hover {
   color: var(--cor-verde-principal); /* Mesmo hover dos links */
-  cursor: url('/assets/mushroom.cur'), pointer; /* Cursor cogumelo */
+  cursor: url('/cursor.png'), pointer; /* Cursor cogumelo */
 }
