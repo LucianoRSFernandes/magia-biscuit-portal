@@ -1,128 +1,99 @@
-// controllers/postController.js (Bloco Original Refatorado)
-
-const connection = require('../database');
+const db = require('../database'); // Conexão já configurada com Promise
 const cloudinary = require('../cloudinaryConfig');
-const fs = require('fs').promises; // Módulo 'fs' para interagir com o sistema de arquivos (usado para deletar o temp file)
+const fs = require('fs').promises;
 
-// Função para LISTAR todos os posts (pública) - Convertida para Async/Await
+// --- LISTAR POSTS ---
 exports.listarPosts = async (req, res) => {
-  const sql = 'SELECT * FROM posts_blog ORDER BY data_publicacao DESC';
+  const sql = 'SELECT * FROM posts_blog ORDER BY data_criacao DESC'; // Ajustado nome da coluna data
   try {
-    const [results] = await connection.promise().query(sql);
+    const [results] = await db.query(sql);
     res.json(results);
   } catch (error) {
     console.error('Erro ao buscar posts:', error);
-    res.status(500).send('Erro ao buscar dados do banco de dados');
+    res.status(500).json({ error: 'Erro ao buscar dados do banco de dados' });
   }
 };
 
-// Função para BUSCAR um único post pelo ID (pública) - Convertida para Async/Await
+// --- BUSCAR POST POR ID ---
 exports.obterPostPorId = async (req, res) => {
   const { id } = req.params;
-  // Validação do ID
   if (isNaN(parseInt(id, 10))) {
       return res.status(400).json({ message: 'ID do post inválido.'});
   }
   const sql = 'SELECT * FROM posts_blog WHERE id = ?';
   try {
-    const [results] = await connection.promise().query(sql, [id]);
+    const [results] = await db.query(sql, [id]);
     if (results.length === 0) {
       return res.status(404).json({ message: 'Post não encontrado.' });
     }
     res.json(results[0]);
   } catch (error) {
     console.error('Erro ao buscar post por ID:', error);
-    res.status(500).send('Erro ao buscar dados do banco de dados');
+    res.status(500).json({ error: 'Erro ao buscar dados do banco de dados' });
   }
 };
 
-// Função para CRIAR um novo post (protegida, com upload opcional)
+// --- CRIAR POST ---
 exports.criarPost = async (req, res) => {
-  console.log('--- INICIANDO CRIAÇÃO DE POST ---');
-  console.log('req.body:', req.body);
-  console.log('req.file:', req.file);
-
+  console.log('--- CRIAÇÃO DE POST ---');
   const { titulo, conteudo } = req.body;
   let imagem_url = null;
-  const filePath = req.file?.path; // Guarda o caminho do arquivo temporário
+  const filePath = req.file?.path;
 
-  // 1. Validação de Entrada
   if (!titulo || !conteudo) {
-      // Limpa arquivo temporário se a validação falhar
-      if (filePath) await fs.unlink(filePath).catch(err => console.error("Erro ao limpar arquivo temp em criarPost:", err));
+      if (filePath) await fs.unlink(filePath).catch(console.error);
       return res.status(400).json({ message: 'Título e conteúdo são obrigatórios.' });
   }
 
   try {
     if (req.file) {
-      console.log('Imagem recebida, enviando para Cloudinary...');
-      const resultadoUpload = await cloudinary.uploader.upload(filePath); // Usa o path diretamente
+      console.log('Enviando imagem post para Cloudinary...');
+      const resultadoUpload = await cloudinary.uploader.upload(filePath, { folder: "posts" });
       imagem_url = resultadoUpload.secure_url;
-      console.log('Upload concluído! URL:', imagem_url);
-      // 4. Limpa o arquivo temporário APÓS o upload bem-sucedido
-      await fs.unlink(filePath).catch(err => console.error("Erro ao limpar arquivo temp após upload:", err));
-    } else {
-      console.log('Nenhuma imagem enviada para o post.');
+      await fs.unlink(filePath).catch(console.error);
     }
 
     const sql = 'INSERT INTO posts_blog (titulo, conteudo, imagem_url) VALUES (?, ?, ?)';
-    // 2. Usando connection.promise()
-    const [results] = await connection.promise().query(sql, [titulo, conteudo, imagem_url]);
+    // CORREÇÃO: Removido .promise()
+    const [results] = await db.query(sql, [titulo, conteudo, imagem_url]);
+    
     res.status(201).json({ message: 'Post criado com sucesso!', id: results.insertId });
 
   } catch (error) {
-    // 3. Tratamento de Erros e Limpeza
-    console.error('Erro no upload ou criação do post:', error);
-     // Garante a limpeza do arquivo temporário em caso de erro no DB ou Cloudinary
-    if (filePath) await fs.unlink(filePath).catch(err => console.error("Erro ao limpar arquivo temp em catch criarPost:", err));
-    // Tenta retornar uma mensagem de erro mais específica
-    const errorMessage = error.message || 'Falha ao processar a requisição.';
-    res.status(500).json({ error: errorMessage });
+    console.error('Erro ao criar post:', error);
+    if (filePath) await fs.unlink(filePath).catch(console.error);
+    res.status(500).json({ error: error.message || 'Falha ao criar post.' });
   }
 };
 
-// Função para ATUALIZAR um post existente (protegida, com upload opcional)
+// --- ATUALIZAR POST ---
 exports.atualizarPost = async (req, res) => {
   const { id } = req.params;
   const { titulo, conteudo, imagem_url_existente } = req.body;
   let imagem_url = imagem_url_existente || null;
   const filePath = req.file?.path;
 
-  console.log('--- INICIANDO ATUALIZAÇÃO DE POST ---');
-  console.log('req.body:', req.body);
-  console.log('req.file:', req.file);
-
-  // 1. Validação de Entrada
   if (isNaN(parseInt(id, 10))) {
-      if (filePath) await fs.unlink(filePath).catch(err => console.error("Erro ao limpar arquivo temp:", err));
+      if (filePath) await fs.unlink(filePath).catch(console.error);
       return res.status(400).json({ message: 'ID do post inválido.'});
   }
    if (!titulo || !conteudo) {
-      if (filePath) await fs.unlink(filePath).catch(err => console.error("Erro ao limpar arquivo temp:", err));
+      if (filePath) await fs.unlink(filePath).catch(console.error);
       return res.status(400).json({ message: 'Título e conteúdo são obrigatórios.' });
   }
 
   try {
     if (req.file) {
-      console.log('Nova imagem recebida, enviando para Cloudinary...');
-      const resultadoUpload = await cloudinary.uploader.upload(filePath);
+      const resultadoUpload = await cloudinary.uploader.upload(filePath, { folder: "posts" });
       imagem_url = resultadoUpload.secure_url;
-      console.log('Upload concluído! Nova URL:', imagem_url);
-      await fs.unlink(filePath).catch(err => console.error("Erro ao limpar arquivo temp após upload:", err));
-      // 5. Opcional: Lógica para deletar a imagem antiga do Cloudinary
-      if (imagem_url_existente) {
-          const publicId = imagem_url_existente.split('/').pop().split('.')[0]; // Extrai ID da URL antiga
-          cloudinary.uploader.destroy(publicId)
-              .then(result => console.log("Imagem antiga deletada do Cloudinary:", result))
-              .catch(err => console.error("Erro ao deletar imagem antiga do Cloudinary:", err));
-      }
-    } else {
-      console.log('Nenhuma NOVA imagem enviada. Mantendo existente (se houver).');
+      await fs.unlink(filePath).catch(console.error);
+      
+      // Opcional: Deletar imagem antiga do Cloudinary aqui se desejar
     }
 
     const sql = 'UPDATE posts_blog SET titulo = ?, conteudo = ?, imagem_url = ? WHERE id = ?';
-    // 2. Usando connection.promise()
-    const [results] = await connection.promise().query(sql, [titulo, conteudo, imagem_url, id]);
+    // CORREÇÃO: Removido .promise()
+    const [results] = await db.query(sql, [titulo, conteudo, imagem_url, id]);
 
     if (results.affectedRows === 0) {
       return res.status(404).json({ message: 'Post não encontrado.' });
@@ -130,16 +101,14 @@ exports.atualizarPost = async (req, res) => {
     res.json({ message: 'Post atualizado com sucesso!' });
 
   } catch (error) {
-    // 3. Tratamento de Erros e Limpeza
-    console.error('Erro no upload ou atualização do post:', error);
-    if (filePath) await fs.unlink(filePath).catch(err => console.error("Erro ao limpar arquivo temp em catch atualizarPost:", err));
-    const errorMessage = error.message || 'Falha ao processar a requisição.';
-    res.status(500).json({ error: errorMessage });
+    console.error('Erro ao atualizar post:', error);
+    if (filePath) await fs.unlink(filePath).catch(console.error);
+    res.status(500).json({ error: error.message || 'Falha ao atualizar post.' });
   }
 };
 
-// Função para DELETAR um post (protegida)
-exports.deletarPost = async (req, res) => { // Tornada async
+// --- DELETAR POST ---
+exports.deletarPost = async (req, res) => {
   const { id } = req.params;
 
    if (isNaN(parseInt(id, 10))) {
@@ -150,29 +119,30 @@ exports.deletarPost = async (req, res) => { // Tornada async
   const deleteSql = 'DELETE FROM posts_blog WHERE id = ?';
 
   try {
-    // 5. Opcional: Buscar URL da imagem antes de deletar
-    const [findResults] = await connection.promise().query(findSql, [id]);
+    // 1. Buscar URL da imagem
+    const [findResults] = await db.query(findSql, [id]);
     const imagemUrlParaDeletar = findResults.length > 0 ? findResults[0].imagem_url : null;
 
-    // Deletar o post do banco
-    const [deleteResults] = await connection.promise().query(deleteSql, [id]);
+    // 2. Deletar do banco
+    const [deleteResults] = await db.query(deleteSql, [id]);
 
     if (deleteResults.affectedRows === 0) {
       return res.status(404).json({ message: 'Post não encontrado.' });
     }
 
-    // 5. Opcional: Deletar a imagem do Cloudinary se ela existia
+    // 3. Deletar do Cloudinary
     if (imagemUrlParaDeletar) {
-      const publicId = imagemUrlParaDeletar.split('/').pop().split('.')[0];
-      cloudinary.uploader.destroy(publicId)
-          .then(result => console.log("Imagem associada deletada do Cloudinary:", result))
-          .catch(err => console.error("Erro ao deletar imagem associada do Cloudinary:", err));
+        // Lógica simples para extrair Public ID
+        try {
+            const publicId = imagemUrlParaDeletar.split('/').pop().split('.')[0];
+            await cloudinary.uploader.destroy(publicId);
+        } catch(e) { console.error("Erro ao deletar imagem post Cloudinary", e); }
     }
 
     res.json({ message: 'Post deletado com sucesso!' });
 
   } catch (error) {
     console.error('Erro ao deletar post:', error);
-    res.status(500).send('Erro ao deletar dados do banco de dados');
+    res.status(500).json({ error: 'Erro ao deletar post.' });
   }
 };
