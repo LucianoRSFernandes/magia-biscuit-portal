@@ -105,7 +105,7 @@
   background-color: rgba(255, 255, 255, 0.05);
   display: flex;
   align-items: center;
-  cursor: url('/cursor.png'), pointer; /* Cursor no container todo */
+  cursor: url('/cursor.cur'), auto; /* Cursor no container todo */
   transition: background-color 0.2s ease;
 }
 .frete-options div:has(input:checked) { /* Destaca opção selecionada */
@@ -115,12 +115,12 @@
 
 .frete-options input[type="radio"] {
     margin-right: 0.8rem;
-    cursor: url('/cursor.png'), pointer;
+    cursor: url('/cursor.cur'), auto;
     accent-color: var(--cor-amarelo-principal); /* Cor do radio button */
 }
 
 .frete-options label {
-    cursor: url('/cursor.png'), pointer;
+    cursor: url('/cursor.cur'), auto;
     flex-grow: 1; /* Ocupa espaço restante */
 }
 
