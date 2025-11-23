@@ -14,7 +14,7 @@ function AdminProdutosPage() {
     setErro(''); // Limpa erros antigos
     try {
       // A listagem de produtos é pública
-      const response = await fetch(`${API_URL}/produtos`);
+      const response = await fetch(`${API_URL}/api/produtos`);
       if (!response.ok) {
         throw new Error('Falha ao buscar produtos.');
       }
@@ -47,7 +47,7 @@ function AdminProdutosPage() {
     }
 
     try {
-      const response = await fetch(`${API_URL}/produtos/${produtoId}`, {
+      const response = await fetch(`${API_URL}/api/produtos/${produtoId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`

@@ -20,7 +20,7 @@ function ProductDetailPage() {
       setProduto(null); // Define como carregando
       setErro('');   // Limpa erros anteriores
       try {
-        const response = await fetch(`${API_URL}/produtos/${id}`);
+        const response = await fetch(`${API_URL}/api/produtos/${id}`);
         if (!response.ok) {
           let errorData;
           try { errorData = await response.json(); }

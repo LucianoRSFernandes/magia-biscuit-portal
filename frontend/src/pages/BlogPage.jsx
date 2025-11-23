@@ -1,41 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-// Reutiliza estilos de admin para a estrutura geral da página
 import '../styles/AdminStyles.css';
-// Reutiliza estilos de HomePage para os cards de post e grid
 import './HomePage.css';
 import API_URL from '../config';
 
 function BlogPage() {
   const [posts, setPosts] = useState([]);
   const [erro, setErro] = useState('');
-  const [isLoading, setIsLoading] = useState(true); // Estado de carregamento
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setIsLoading(true); // Inicia carregamento
-    setErro(''); // Limpa erros antigos
-    fetch(`${API_URL}/posts`) // Endpoint público para buscar todos os posts
+    setIsLoading(true);
+    setErro('');
+    fetch(`${API_URL}/api/posts`)
       .then(response => {
         if (!response.ok) {
-          // Tenta ler o erro, senão usa mensagem padrão
-          return response.json().then(errData => { throw new Error(errData.message || 'Falha ao buscar posts.'); });
+           return response.json().then(errData => { throw new Error(errData.message || 'Falha ao buscar posts.'); });
         }
         return response.json();
       })
       .then(data => {
-        setPosts(data); // Armazena os posts recebidos
+        setPosts(data);
       })
       .catch(error => {
         console.error('Erro ao buscar posts:', error);
-        setErro(error.message); // Define a mensagem de erro
+        setErro(error.message);
       })
       .finally(() => {
-        setIsLoading(false); // Finaliza carregamento (com sucesso ou erro)
+        setIsLoading(false);
       });
-  }, []); // Executa apenas uma vez ao montar o componente
+  }, []);
 
   return (
-    // Reutiliza o container principal de admin para consistência visual
     <div className="admin-page-container">
       <h2 className="section-title">Nosso Blog</h2> {/* Usa classe de título padrão */}
 

@@ -24,7 +24,7 @@ function AdminEditProdutoPage() {
     setIsLoadingData(true);
     setMensagem(''); // Limpa mensagens anteriores
     setIsError(false);
-    fetch(`${API_URL}/produtos/${id}`)
+    fetch(`${API_URL}/api/produtos/${id}`)
       .then(res => {
           if (!res.ok) {
               // Tenta ler o erro, senão usa mensagem padrão
@@ -95,7 +95,7 @@ function AdminEditProdutoPage() {
 
 
     try {
-      const response = await fetch(`${API_URL}/produtos/${id}`, {
+      const response = await fetch(`${API_URL}/api/produtos/${id}`, {
         method: 'PUT',
         headers: {
             'Authorization': `Bearer ${token}`

@@ -14,8 +14,8 @@ function HomePage() {
   useEffect(() => {
     // Busca todos os produtos e posts
     Promise.all([
-      fetch(`${API_URL}/produtos`),
-      fetch(`${API_URL}/posts`)
+      fetch(`${API_URL}/api/produtos`),
+      fetch(`${API_URL}/api/posts`)
     ])
     .then(async([resProdutos, resPosts]) => {
       const produtos = await resProdutos.json();
