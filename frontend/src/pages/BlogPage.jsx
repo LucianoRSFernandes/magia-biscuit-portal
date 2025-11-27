@@ -54,9 +54,9 @@ function BlogPage() {
                 <div key={post.id} className="post-preview-card">
 
                   {/* Exibe a imagem do post, se existir */}
-                  {post.imagem_url && (
+                  {post.imagem && (
                     <img
-                      src={post.imagem_url}
+                      src={post.imagem}
                       alt={post.titulo || 'Imagem do post'}
                       className="post-preview-image" // Usa a classe definida em HomePage.css
                     />

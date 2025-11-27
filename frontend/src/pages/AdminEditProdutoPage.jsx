@@ -38,7 +38,7 @@ function AdminEditProdutoPage() {
         // Garante que o preço seja string para o input type="number"
         setPreco(data.preco ? String(Number(data.preco).toFixed(2)) : '');
         setCategoria(data.categoria || '');
-        setImagemUrlAtual(data.imagem_url || '');
+        setImagemUrlAtual(data.imagem || '');
       })
       .catch(error => {
           console.error('Erro ao buscar produto:', error);
@@ -87,7 +87,7 @@ function AdminEditProdutoPage() {
     formData.append('descricao', descricao);
     formData.append('preco', precoNum); // Envia o número validado
     formData.append('categoria', categoria || '');
-    formData.append('imagem_url_existente', imagemUrlAtual || ''); // Envia URL atual
+    formData.append('imagem_existente', imagemUrlAtual || ''); // Envia URL atual
     // Adiciona o novo arquivo apenas se selecionado
     if (novaImagem) {
       formData.append('imagem', novaImagem);
