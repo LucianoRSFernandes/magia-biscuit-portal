@@ -1,16 +1,26 @@
 /* Importa a fonte do Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&display=swap');
 
-/* Define as variáveis do tema "Jardim Místico" */
 :root {
-  --cor-amarelo-principal: #FFA500; /* Laranja/Amarelo para botões e destaques */
+  --cor-amarelo-principal: #FFA500; 
   --cor-verde-salvia: #8F9779;
   --cor-terrosa: #A67B5B;
-  --cor-fundo-escuro: #304f44;   /* Fundo verde escuro principal */
-  --cor-fundo-claro: #E8F5E9;    /* Fundo claro para Footer/Header */
-  --cor-texto-claro: #F5F5F5;   /* Texto CLARO para fundo escuro */
-  --cor-texto-escuro: #36454F;  /* Texto ESCURO para fundo claro/botões */
+  --cor-fundo-escuro: #304f44;   
+  --cor-fundo-claro: #E8F5E9;    
+  --cor-texto-claro: #F5F5F5;    
+  --cor-texto-escuro: #36454F;  
   --cor-destaque: #D4A276;
+}
+
+/* REGRA SUPREMA DO CURSOR */
+/* Aplica em TUDO (*) com !important para sobrescrever qualquer padrão do navegador */
+* {
+    cursor: url('/cursor.png'), auto !important;
+}
+
+/* Força o cursor 'pointer' (mãozinha) a virar cogumelo também */
+a, button, input[type="button"], input[type="submit"], .clickable, label {
+    cursor: url('/cursor.png'), pointer !important;
 }
 
 html, body {
@@ -18,42 +28,32 @@ html, body {
   padding: 0;
   box-sizing: border-box;
   font-family: 'Lora', serif;
-  color: var(--cor-texto-claro); /* Texto padrão do site é claro */
-  background-color: var(--cor-fundo-escuro); /* Fundo padrão é escuro */
+  color: var(--cor-texto-claro);
+  background-color: var(--cor-fundo-escuro); 
   min-height: 100%;
-
-  /* Cursor de cogumelo (usando a URL local) */
-  /* Certifique-se que 'mushroom.cur' está em 'frontend/public/assets/' */
-  cursor: url('/cursor.cur'), auto;
 }
 
-/* Garante que o container root ocupe toda a altura */
 #root {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
-/* Estilo global de botões */
 button {
   background-color: var(--cor-amarelo-principal);
-  color: var(--cor-texto-escuro); /* Texto escuro para contraste */
+  color: var(--cor-texto-escuro); 
   border: none;
   padding: 10px 15px;
   border-radius: 5px;
-  /* cursor: pointer; */ /* Removido para herdar o cogumelo */
   font-weight: bold;
   font-family: 'Lora', serif;
   transition: background-color 0.3s ease;
 }
 
-/* Define cursor pointer no hover do botão */
 button:hover {
   background-color: var(--cor-destaque);
-  cursor: url('/cursor.cur'), auto; 
 }
 
-/* Estilo global de links */
 a {
   color: var(--cor-amarelo-principal);
   text-decoration: none;
@@ -62,12 +62,19 @@ a {
 
 a:hover {
   color: var(--cor-destaque);
-  /* Cursor cogumelo no hover do link */
-  cursor: url('/cursor.cur'), auto; 
 }
 
-/* Títulos globais */
 h1, h2, h3, h4, h5, h6 {
     color: var(--cor-texto-claro);
-    /* Sobrescrevemos nos componentes com fundo claro (ex: ProdutoCard) */
 }
+```
+
+### 🚀 O que fazer agora:
+
+1.  **Vercel:** Clique em **Save** naquela tela de domínio.
+2.  **Código:** Substitua o `CartPage.jsx` e o `index.css` pelos códigos acima.
+3.  **Publicar:**
+    ```bash
+    git add .
+    git commit -m "Fix: Ativar remoção carrinho e forçar cursor CSS"
+    git push origin desenvolvimento

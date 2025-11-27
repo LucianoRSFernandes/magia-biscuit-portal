@@ -1,26 +1,26 @@
 import React from 'react';
-import { useCart } from '../context/CartContext';
+// Caminho relativo ajustado para encontrar o CartContext na estrutura src/context
+// Assumindo que o arquivo está em src/pages/CartPage.jsx e o contexto em src/context/CartContext.jsx
+import { useCart } from '../context/CartContext'; 
 import { Link, useNavigate } from 'react-router-dom';
-import './CartPage.css'; // Importa os estilos da página do carrinho
+// O arquivo CSS está na mesma pasta, então o caminho é relativo
+import './CartPage.css'; 
 
 function CartPage() {
-  // Acessa os itens do carrinho e funções de manipulação do contexto
-  // Adicionamos removeFromCart e updateItemQuantity para uso futuro
-  const { cartItems, removeFromCart, updateItemQuantity, clearCart } = useCart();
+  // Acessa os itens e funções do contexto
+  const { cartItems, removeFromCart, updateItemQuantity } = useCart();
   const navigate = useNavigate();
 
-  // Calcula o preço total dos itens no carrinho
+  // Calcula o total
   const total = cartItems.reduce((sum, item) => sum + Number(item.preco) * item.quantidade, 0);
 
-  // Função chamada ao clicar em "Ir para o Checkout"
-  // Agora apenas verifica o login e navega para a página de checkout
   const handleCheckoutNavigation = () => {
     const token = localStorage.getItem('token');
     if (!token) {
       alert('Por favor, faça o login para finalizar a compra.');
-      navigate('/login'); // Redireciona para o login se não estiver logado
+      navigate('/login'); 
     } else {
-      navigate('/checkout'); // Navega para a página de checkout se estiver logado
+      navigate('/checkout'); 
     }
   };
 
@@ -38,39 +38,52 @@ function CartPage() {
               <tr>
                 <th>Produto</th>
                 <th>Preço Unit.</th>
-                <th>Quantidade</th>
+                <th>Qtd</th>
                 <th>Subtotal</th>
-                {/* Opcional: Coluna para Ação de Remover */}
-                {/* <th>Remover</th> */}
+                {/* CORREÇÃO: Descomentei o cabeçalho */}
+                <th>Ações</th> 
               </tr>
             </thead>
             <tbody>
               {cartItems.map(item => (
                 <tr key={item.id}>
                   <td>
-                    {/* Link para a página do produto */}
                     <Link to={`/produtos/${item.id}`} style={{ color: 'var(--cor-texto-claro)' }}>
                        {item.nome}
                     </Link>
                    </td>
                   <td>R$ {Number(item.preco).toFixed(2)}</td>
                   <td>
-                    {/* Opcional: Botões para ajustar quantidade */}
-                    {/* <button onClick={() => updateItemQuantity(item.id, -1)}>-</button> */}
-                    {item.quantidade}
-                    {/* <button onClick={() => updateItemQuantity(item.id, 1)}>+</button> */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                        {/* Botões de + e - opcionais, mas funcionais se quiser usar */}
+                        {/* <button onClick={() => updateItemQuantity(item.id, -1)} style={{padding: '2px 8px'}}>-</button> */}
+                        <span>{item.quantidade}</span>
+                        {/* <button onClick={() => updateItemQuantity(item.id, 1)} style={{padding: '2px 8px'}}>+</button> */}
+                    </div>
                   </td>
                   <td>R$ {(Number(item.preco) * item.quantidade).toFixed(2)}</td>
-                  {/* Opcional: Botão para remover item */}
-                  {/* <td><button onClick={() => removeFromCart(item.id)}>X</button></td> */}
+                  
+                  {/* CORREÇÃO: Descomentei e estilizei o botão de remover */}
+                  <td>
+                    <button 
+                        onClick={() => removeFromCart(item.id)}
+                        style={{ 
+                            backgroundColor: '#ff4444', 
+                            color: 'white', 
+                            fontSize: '0.8rem',
+                            padding: '5px 10px'
+                        }}
+                        title="Remover item"
+                    >
+                        Remover 🗑️
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
 
           <div className="cart-summary">
-            {/* Opcional: Botão para limpar carrinho */}
-            {/* <button onClick={clearCart} className="clear-cart-button">Limpar Carrinho</button> */}
             <div className="cart-total">
               <h3>Total: R$ {total.toFixed(2)}</h3>
             </div>
@@ -78,7 +91,6 @@ function CartPage() {
 
           <div className="cart-actions">
             <Link to="/">Continuar Comprando</Link>
-            {/* Botão que agora chama a função de navegação */}
             <button onClick={handleCheckoutNavigation} className="checkout-button">
               Ir para o Checkout
             </button>
