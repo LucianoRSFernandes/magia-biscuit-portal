@@ -17,8 +17,8 @@ function ProdutoCard({ produto }) {
       <div className="produto-card">
 
         {/* Imagem do Produto ou Placeholder */}
-        {produto.imagem_url ? (
-          <img src={produto.imagem_url} alt={produto.nome || 'Imagem do produto'} className="produto-imagem" />
+        {produto.imagem ? (
+          <img src={produto.imagem} alt={produto.nome || 'Imagem do produto'} className="produto-imagem" />
         ) : (
           <div className="imagem-placeholder">Imagem Indisponível</div>
         )}

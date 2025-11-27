@@ -66,9 +66,9 @@ function ProductDetailPage() {
       
       {/* Coluna da Imagem */}
       <div className="product-image-container">
-        {produto.imagem_url ? (
+        {produto.imagem ? (
           <img 
-            src={produto.imagem_url} 
+            src={produto.imagem} 
             // Alt text mais descritivo
             alt={`Imagem do produto ${produto.nome}`} 
             className="product-image" 

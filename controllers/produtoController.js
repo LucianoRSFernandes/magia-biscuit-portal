@@ -1,39 +1,34 @@
-const db = require('../database'); // Conexão já configurada com Promise
+const db = require('../database');
 const cloudinary = require('../cloudinaryConfig');
-const fs = require('fs').promises; // Para deletar arquivos temporários
+const fs = require('fs').promises;
 
-// Função auxiliar para deletar arquivo temporário
 const deleteTempFile = async (filePath) => {
     if (filePath) {
         try {
             await fs.unlink(filePath);
-            console.log("Arquivo temporário deletado:", filePath);
         } catch (err) {
             console.error("Erro ao deletar arquivo temporário:", filePath, err);
         }
     }
 };
 
-// Função auxiliar para deletar imagem do Cloudinary
 const deleteCloudinaryImage = async (imageUrl) => {
     if (!imageUrl || !imageUrl.includes('cloudinary')) return;
     try {
         const publicIdWithExtension = imageUrl.split('/').pop();
         const publicId = publicIdWithExtension.substring(0, publicIdWithExtension.lastIndexOf('.'));
         if (publicId) {
-            const result = await cloudinary.uploader.destroy(publicId); // Note: pasta/publicId se usar pastas
-            console.log("Resultado da deleção no Cloudinary:", result);
+            // Ajuste se usar pastas no cloudinary: 'produtos/publicId'
+            await cloudinary.uploader.destroy(publicId); 
         }
     } catch (err) {
         console.error("Erro ao deletar imagem do Cloudinary:", imageUrl, err);
     }
 };
 
-// --- LISTAR PRODUTOS ---
 exports.listarProdutos = async (req, res) => {
   const sql = 'SELECT * FROM produtos ORDER BY id DESC';
   try {
-    // CORREÇÃO: Removido .promise()
     const [results] = await db.query(sql);
     res.json(results);
   } catch (error) {
@@ -42,160 +37,105 @@ exports.listarProdutos = async (req, res) => {
   }
 };
 
-// --- BUSCAR PRODUTO POR ID ---
 exports.obterProdutoPorId = async (req, res) => {
   const { id } = req.params;
-  if (isNaN(parseInt(id, 10))) {
-      return res.status(400).json({ message: 'ID do produto inválido.'});
-  }
-  const sql = 'SELECT * FROM produtos WHERE id = ?';
+  if (isNaN(parseInt(id, 10))) return res.status(400).json({ message: 'ID inválido.'});
+  
   try {
-    const [results] = await db.query(sql, [id]);
-    if (results.length === 0) {
-      return res.status(404).json({ message: 'Produto não encontrado.' });
-    }
+    const [results] = await db.query('SELECT * FROM produtos WHERE id = ?', [id]);
+    if (results.length === 0) return res.status(404).json({ message: 'Produto não encontrado.' });
     res.json(results[0]);
   } catch (error) {
-    console.error('Erro ao buscar produto por ID:', error);
-    res.status(500).json({ error: 'Erro ao buscar dados do banco de dados' });
+    console.error('Erro ao buscar produto:', error);
+    res.status(500).json({ error: 'Erro interno' });
   }
 };
 
-// --- CRIAR PRODUTO ---
 exports.criarProduto = async (req, res) => {
-  console.log('--- INICIANDO CRIAÇÃO DE PRODUTO ---');
   const { nome, descricao, preco, categoria } = req.body;
   const file = req.file;
-  let imagem_url = null;
+  let imagem = null; // Nome corrigido
 
-  // Validação
   if (!nome || !descricao || !preco) {
       await deleteTempFile(file?.path);
-      return res.status(400).json({ message: 'Nome, descrição e preço são obrigatórios.' });
-  }
-  if (isNaN(parseFloat(preco))) {
-      await deleteTempFile(file?.path);
-      return res.status(400).json({ message: 'Preço inválido.' });
-  }
-  if (!file) {
-       return res.status(400).json({ message: 'Imagem do produto é obrigatória.' });
-  }
-
-  try {
-    console.log('Enviando imagem para Cloudinary...');
-    const resultadoUpload = await cloudinary.uploader.upload(file.path, {
-        folder: "produtos",
-    });
-    imagem_url = resultadoUpload.secure_url;
-    console.log('Upload concluído! URL:', imagem_url);
-    await deleteTempFile(file.path);
-
-    const sql = 'INSERT INTO produtos (nome, descricao, preco, imagem_url, categoria) VALUES (?, ?, ?, ?, ?)';
-    // CORREÇÃO: Removido .promise()
-    const [results] = await db.query(sql, [nome, descricao, parseFloat(preco), imagem_url, categoria || null]);
-    
-    res.status(201).json({ message: 'Produto criado com sucesso!', id: results.insertId });
-
-  } catch (error) {
-    console.error('Erro ao criar produto:', error);
-    await deleteTempFile(file?.path);
-    res.status(500).json({ error: error.message || 'Falha ao processar a requisição.' });
-  }
-};
-
-// --- ATUALIZAR PRODUTO ---
-exports.atualizarProduto = async (req, res) => {
-  const { id } = req.params;
-  const { nome, descricao, preco, categoria, imagem_url_existente } = req.body;
-  const file = req.file;
-  let imagem_url = imagem_url_existente || null;
-  let imagemAntigaParaDeletar = null;
-
-  if (isNaN(parseInt(id, 10))) {
-      await deleteTempFile(file?.path);
-      return res.status(400).json({ message: 'ID do produto inválido.'});
-  }
-   if (!nome || !descricao || !preco) {
-      await deleteTempFile(file?.path);
-      return res.status(400).json({ message: 'Nome, descrição e preço são obrigatórios.' });
+      return res.status(400).json({ message: 'Dados obrigatórios faltando.' });
   }
 
   try {
     if (file) {
-      console.log('Atualizando imagem no Cloudinary...');
-      const resultadoUpload = await cloudinary.uploader.upload(file.path, { folder: "produtos" });
-      imagem_url = resultadoUpload.secure_url;
-      await deleteTempFile(file.path);
-      imagemAntigaParaDeletar = imagem_url_existente;
+        console.log('Enviando imagem para Cloudinary...');
+        const result = await cloudinary.uploader.upload(file.path, { folder: "produtos" });
+        imagem = result.secure_url; // Nome corrigido
+        await deleteTempFile(file.path);
+    } else {
+        return res.status(400).json({ message: 'Imagem obrigatória.' });
     }
 
-    const sql = 'UPDATE produtos SET nome = ?, descricao = ?, preco = ?, imagem_url = ?, categoria = ? WHERE id = ?';
-    // CORREÇÃO: Removido .promise()
-    const [results] = await db.query(sql, [nome, descricao, parseFloat(preco), imagem_url, categoria || null, id]);
-
-    if (results.affectedRows === 0) {
-      return res.status(404).json({ message: 'Produto não encontrado.' });
-    }
-
-    if (imagemAntigaParaDeletar) {
-        await deleteCloudinaryImage(imagemAntigaParaDeletar);
-    }
-
-    res.json({ message: 'Produto atualizado com sucesso!' });
+    const sql = 'INSERT INTO produtos (nome, descricao, preco, imagem, categoria) VALUES (?, ?, ?, ?, ?)';
+    const [results] = await db.query(sql, [nome, descricao, parseFloat(preco), imagem, categoria || null]);
+    
+    res.status(201).json({ message: 'Produto criado!', id: results.insertId });
 
   } catch (error) {
-    console.error('Erro ao atualizar produto:', error);
+    console.error('Erro ao criar produto:', error);
     await deleteTempFile(file?.path);
-    res.status(500).json({ error: error.message || 'Falha ao atualizar produto.' });
+    res.status(500).json({ error: error.message });
   }
 };
 
-// --- DELETAR PRODUTO ---
-exports.deletarProduto = async (req, res) => {
+exports.atualizarProduto = async (req, res) => {
   const { id } = req.params;
+  // Nota: O frontend deve enviar o nome do campo antigo como 'imagem_existente' ou similar
+  const { nome, descricao, preco, categoria, imagem_existente } = req.body; 
+  const file = req.file;
+  let imagem = imagem_existente || null; // Nome corrigido
+  let imagemAntiga = null;
 
-   if (isNaN(parseInt(id, 10))) {
-      return res.status(400).json({ message: 'ID do produto inválido.'});
+  if (isNaN(parseInt(id, 10))) {
+      await deleteTempFile(file?.path);
+      return res.status(400).json({ message: 'ID inválido.'});
   }
-
-  const findSql = 'SELECT imagem_url FROM produtos WHERE id = ?';
-  const deleteSql = 'DELETE FROM produtos WHERE id = ?';
 
   try {
-    // 1. Buscar URL da imagem
-    const [findResults] = await db.query(findSql, [id]);
-    const imagemUrlParaDeletar = findResults.length > 0 ? findResults[0].imagem_url : null;
-
-    // 2. Deletar do banco
-    const [deleteResults] = await db.query(deleteSql, [id]);
-
-    if (deleteResults.affectedRows === 0) {
-      return res.status(404).json({ message: 'Produto não encontrado.' });
+    if (file) {
+      const result = await cloudinary.uploader.upload(file.path, { folder: "produtos" });
+      imagem = result.secure_url;
+      await deleteTempFile(file.path);
+      imagemAntiga = imagem_existente;
     }
 
-    // 3. Deletar do Cloudinary
-    if (imagemUrlParaDeletar) {
-        await deleteCloudinaryImage(imagemUrlParaDeletar);
-    }
+    const sql = 'UPDATE produtos SET nome = ?, descricao = ?, preco = ?, imagem = ?, categoria = ? WHERE id = ?';
+    const [results] = await db.query(sql, [nome, descricao, parseFloat(preco), imagem, categoria || null, id]);
 
-    res.json({ message: 'Produto deletado com sucesso!' });
+    if (results.affectedRows === 0) return res.status(404).json({ message: 'Produto não encontrado.' });
+
+    if (imagemAntiga) await deleteCloudinaryImage(imagemAntiga);
+
+    res.json({ message: 'Produto atualizado!' });
 
   } catch (error) {
-    console.error('Erro ao deletar produto:', error);
-    res.status(500).json({ error: 'Erro ao deletar produto.' });
+    console.error('Erro ao atualizar:', error);
+    await deleteTempFile(file?.path);
+    res.status(500).json({ error: error.message });
   }
 };
 
-// --- LIMPAR CARRINHO (Novo!) ---
-// Nota: Em arquitetura REST sem sessão no servidor, o carrinho geralmente fica no Frontend (localStorage).
-// Se o carrinho for salvo no banco de dados, use a função abaixo.
-exports.limparCarrinho = async (req, res) => {
-    // Exemplo: Se tiver uma tabela 'carrinho_itens' ligada ao usuário
-    // const userId = req.usuario.id; 
-    // const sql = 'DELETE FROM carrinho_itens WHERE usuario_id = ?';
-    
-    // Como seu projeto atual usa carrinho no LocalStorage do React, 
-    // essa ação deve ser feita no Front-end (CartPage.jsx -> clearCart()).
-    // Mas deixo o esqueleto aqui caso evolua para banco de dados.
-    res.json({ message: 'Carrinho limpo com sucesso (Lógica deve ser implementada no Frontend para LocalStorage).' });
+exports.deletarProduto = async (req, res) => {
+  const { id } = req.params;
+  try {
+    // CORREÇÃO: Mudado de imagem_url para imagem
+    const [find] = await db.query('SELECT imagem FROM produtos WHERE id = ?', [id]);
+    const imgToDelete = find.length > 0 ? find[0].imagem : null;
+
+    const [del] = await db.query('DELETE FROM produtos WHERE id = ?', [id]);
+
+    if (del.affectedRows === 0) return res.status(404).json({ message: 'Produto não encontrado.' });
+
+    if (imgToDelete) await deleteCloudinaryImage(imgToDelete);
+
+    res.json({ message: 'Produto deletado!' });
+  } catch (error) {
+    console.error('Erro ao deletar:', error);
+    res.status(500).json({ error: 'Erro interno' });
+  }
 };

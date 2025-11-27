@@ -65,9 +65,9 @@ function PostDetailPage() {
       </small>
 
       {/* Imagem do Post (se existir) */}
-      {post.imagem_url && (
+      {post.imagem && (
         <img
-          src={post.imagem_url}
+          src={post.imagem}
           // Alt text mais descritivo
           alt={`Imagem ilustrativa para o post "${post.titulo}"`}
           className="post-detail-image" // Usa classe CSS

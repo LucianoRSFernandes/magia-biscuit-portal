@@ -30,7 +30,7 @@ function AdminEditPostPage() {
       .then(data => {
         setTitulo(data.titulo);
         setConteudo(data.conteudo);
-        setImagemUrlAtual(data.imagem_url || ''); // Store current image URL
+        setImagemUrlAtual(data.imagem || ''); // Store current image URL
         setIsLoadingData(false); // Data loaded successfully
       })
       .catch(error => {
@@ -80,7 +80,7 @@ function AdminEditPostPage() {
       formData.append('imagem', novaImagem);
     }
     // Always send the existing image URL (back-end uses this if no new file)
-    formData.append('imagem_url_existente', imagemUrlAtual);
+    formData.append('imagem_existente', imagemUrlAtual);
 
 
     try {
