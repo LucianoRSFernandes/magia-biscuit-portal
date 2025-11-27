@@ -1,22 +1,18 @@
 const express = require('express');
 const router = express.Router();
-const multer = require('multer');
 const produtoController = require('../controllers/produtoController');
-const { verificarToken } = require('../authMiddleware');
+const multer = require('multer');
 
-// Configure o multer para salvar os arquivos temporariamente na pasta 'uploads'
+// Configuração do Multer
 const upload = multer({ dest: 'uploads/' });
 
-// Rotas públicas para visualização
+// Rotas
 router.get('/', produtoController.listarProdutos);
 router.get('/:id', produtoController.obterProdutoPorId);
 
-// Rota POST para criar um produto, agora com o middleware do multer
-// O 'upload.single('imagem')' irá processar o arquivo e os campos de texto
-router.post('/', verificarToken, upload.single('imagem'), produtoController.criarProduto);
-
-// Rotas protegidas para atualizar e deletar
-router.put('/:id', verificarToken, upload.single('imagem'), produtoController.atualizarProduto);
-router.delete('/:id', verificarToken, produtoController.deletarProduto);
+// Rotas de Escrita (Upload de imagem 'imagem')
+router.post('/', upload.single('imagem'), produtoController.criarProduto);
+router.put('/:id', upload.single('imagem'), produtoController.atualizarProduto);
+router.delete('/:id', produtoController.deletarProduto);
 
 module.exports = router;
