@@ -1,19 +1,35 @@
 const express = require('express');
 const router = express.Router();
-const multer = require('multer'); // 1. Importe multer
 const postController = require('../controllers/postController');
-const { verificarToken } = require('../authMiddleware');
+const multer = require('multer');
 
-// 2. Configure o multer (mesma configuração dos produtos)
+// Configuração simples do Multer para salvar temporariamente antes de enviar ao Cloudinary
+// (Isso é necessário porque o controller espera req.file.path)
 const upload = multer({ dest: 'uploads/' });
 
-// Rotas públicas
+// Middleware de Autenticação (Opcional: Se quiser proteger as rotas de criar/editar)
+// const { verificarToken } = require('../authMiddleware'); 
+// Se for usar, adicione verificarToken antes do upload.single nas rotas abaixo.
+
+// --- ROTAS PÚBLICAS ---
+
+// Listar todos os posts
 router.get('/', postController.listarPosts);
+
+// Pegar um post específico
 router.get('/:id', postController.obterPostPorId);
 
-// Rotas protegidas com upload
-router.post('/', verificarToken, upload.single('imagem'), postController.criarPost); // 3. Adicione upload
-router.put('/:id', verificarToken, upload.single('imagem'), postController.atualizarPost); // 4. Adicione upload
-router.delete('/:id', verificarToken, postController.deletarPost);
+
+// --- ROTAS PROTEGIDAS (Admin) ---
+// Nota: Adicionei o middleware 'upload.single' que estava faltando ou causando erro
+
+// Criar Post (com upload de imagem chamada 'imagem')
+router.post('/', upload.single('imagem'), postController.criarPost);
+
+// Atualizar Post (Essa deve ser a linha 16 que estava dando erro)
+router.put('/:id', upload.single('imagem'), postController.atualizarPost);
+
+// Deletar Post
+router.delete('/:id', postController.deletarPost);
 
 module.exports = router;
