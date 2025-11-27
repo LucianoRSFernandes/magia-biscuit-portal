@@ -68,13 +68,3 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--cor-texto-claro);
 }
 ```
-
-### 🚀 O que fazer agora:
-
-1.  **Vercel:** Clique em **Save** naquela tela de domínio.
-2.  **Código:** Substitua o `CartPage.jsx` e o `index.css` pelos códigos acima.
-3.  **Publicar:**
-    ```bash
-    git add .
-    git commit -m "Fix: Ativar remoção carrinho e forçar cursor CSS"
-    git push origin desenvolvimento
